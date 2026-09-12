@@ -15,7 +15,7 @@
 
 <header class="site-head">
   <div class="wrap">
-    <a class="brand" href="../index.html">Your Name</a>
+    <a class="brand" href="../index.html">Isaac Dash</a>
     <nav>
       <a href="../index.html">Home</a>
       <a href="../index.html#labs">Labs</a>
@@ -31,7 +31,7 @@
 
     <!-- EDIT THIS: a title that says what you found, not what you did.
          "Where the metro does not go" beats "Lab 1 report". -->
-    <h1>Give this lab a real title</h1>
+    <h1>The Snow Cholera Map: What maps say and what they hide</h1>
 
     <!-- ============================================================
          The six parts. Every entry in this course has all six.
@@ -41,13 +41,13 @@
 
     <h2>The question</h2>
     <p>
-      One sentence. It must be answerable, and it must have a "where" in it.
-      Write it as a question, with a question mark.
+      Where is the pump at the center of the cholera outbreak?
     </p>
 
     <h2>The data</h2>
     <p>
-      Where it came from, when it was collected, who made it, and under what
+      The data was taken from 
+         Where it came from, when it was collected, who made it, and under what
       licence. Then the part people skip: what is missing from it.
     </p>
 
@@ -72,16 +72,14 @@
          Delete whichever one you are not using.
          ============================================================ -->
     <figure>
-      <img src="map-01.svg" alt="Describe what the map shows, for someone who cannot see it.">
-      <!--
-      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
-              title="Describe your map" loading="lazy"></iframe>
-      -->
-      <figcaption>
-        A caption that says what to look at. Not "Figure 1" — tell the reader
-        where their eye should go and what it means.
+      <iframe src="https://nyuds.maps.arcgis.com/apps/mapviewer/index.html?configurableview=true&webmap=feb459605d8540beb2c41914ae5bde31&theme=light&bookmarks=true&heading=true&legend=true&scroll=false&center=-0.13541431646529703,51.51031794050792&scale=18055.954822"
+              title="Describe your map" loading="lazy"></iframe>         
+         <figcaption>
+            The famous John Snow map of Soho, London, 1854, with the pumps labeled on the map. A heatmap of cholera cases, generated using kernel density estimation with a Area of influence chosen in the center of ArcGIS's unlabeled slider, is applied to the map. 
+               Note that the names of streets on the maps and datapoints use modern names, while the map itself was generated before Broad Street was renamed Broadwick Street in 1936.
       </figcaption>
     </figure>
+       
 
     <h2>What I found</h2>
     <p>
@@ -97,9 +95,8 @@
         been drawn differently, say so here.
       </p>
       <p>
-        <strong>AI use:</strong> AI-assisted for [what], using [which tool].
-        I verified [how]. If you did not use AI, write "No AI tools were used
-        for this entry."
+        <strong>AI use:</strong> No AI tools were used
+        for this entry.
       </p>
     </div>
 
