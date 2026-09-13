@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lab 01 · Your Name</title>
+<title>Lab 01 · Isaac Dash</title>
 
 <!-- Note the ../ — this page is inside the labs folder, so it has to
      look one level up to find the stylesheet. -->
@@ -41,21 +41,18 @@
 
     <h2>The question</h2>
     <p>
-      Where is the pump at the center of the cholera outbreak?
+     Where is the pump at the center of the cholera outbreak?
     </p>
 
     <h2>The data</h2>
     <p>
-      The data was taken from 
-         Where it came from, when it was collected, who made it, and under what
-      licence. Then the part people skip: what is missing from it.
+The data was taken from a Esri-hosed teaching web map covering John Snow’s famous 1854 map of the Soho, London cholera outbreak. The link to the original map with the data is <a href="https://www.arcgis.com/apps/mapviewer/index.html?webmap=6fb43b7db1d34716aad53583406f98b1"> https://www.arcgis.com/apps/mapviewer/index.html?webmap=6fb43b7db1d34716aad53583406f98b1</a>. A heat map was added, and the labels for the pumps were manually moved to a higher layer so it is visible over the heat map. <br> It is worth noting that the map on ArcGIS uses the 1854 map of the Soho, London area, but the locations and addresses use the modern, geocoded map. As such, some changes in information can be seen, such as the fact that addresses reference “Broadwick Street” instead of “Broad Street”. This is because Broad Street was renamed Broadwick Street in 1936. Also, it is useful to know that the original map by Snow was used as evidence that cases cluster around the pump in the center of the heat map, not as a method of discovering this fact
     </p>
 
     <h2>The method</h2>
     <p>
-      What you actually did, in enough detail that someone else could repeat
-      it. Name the tool, the projection, and any threshold or class break you
-      chose. If you chose a number, say why you chose that number.
+          The algorithm used to generate the heat map was kernel density estimation, with the Area of Influence set by ArcGIS’s built in slider. This slider was unlabeled and lacked units. Three locations along the slider were checked: the far left, the far right, and the middle.  
+
     </p>
 
     <!-- ============================================================
@@ -75,28 +72,26 @@
       <iframe src="https://nyuds.maps.arcgis.com/apps/mapviewer/index.html?configurableview=true&webmap=feb459605d8540beb2c41914ae5bde31&theme=light&bookmarks=true&heading=true&legend=true&scroll=false&center=-0.13541431646529703,51.51031794050792&scale=18055.954822"
               title="Describe your map" loading="lazy"></iframe>         
          <figcaption>
-            The famous John Snow map of Soho, London, 1854, with the pumps labeled on the map. A heatmap of cholera cases, generated using kernel density estimation with a Area of influence chosen in the center of ArcGIS's unlabeled slider, is applied to the map. 
-               Note that the names of streets on the maps and datapoints use modern names, while the map itself was generated before Broad Street was renamed Broadwick Street in 1936.
+                    The famous John Snow map of Soho, London, 1854, with the pumps labeled on the map. A heatmap of cholera cases, generated using kernel density estimation with a Area of influence chosen in the center of ArcGIS's unlabeled slider, is applied to the map. <br>Note that the names of streets on the maps and datapoints use modern names, while the map itself was generated before Broad Street was renamed Broadwick Street in 1936. It is also worth mentioning that this is only the middle sensitivity. The other two sensitivities would not fit in this webpage as interactive maps, so they were not included.
+
       </figcaption>
     </figure>
        
 
     <h2>What I found</h2>
     <p>
-      Plain language. What does the map support? Write it so someone outside
-      this course could follow it.
+The map showed that, at the middle “Area of Influence” setting, the cases are clearly clustered around the 43 Broadwick Street pump according to the heat map, with no other pumps within the most dense band of the heatmap. The heatmap also seemed to respect the walls, as it got less dense passing through buildings.  In the minimum sensitivity, unshown on this page, each data point created a dot-like cluster, and the only reason the 43 Broadwick Street pump was contained in one of those bands was that that location also houses a data point. The far right version also surrounded the 43 Broadwick Street location, but it spread out almost radially, with very little respect for the buildings it may pass through, showing it seems to overgeneralize areas to the point of losing detail. Since all sensitivity levels seemed to hint that the 43 Broadwick Street pump is at the center, this is good evidence of the fact that this pump is at the center of the deaths caused by the  outbreak, but not much more than evidence. 
+
     </p>
 
     <h2>What this does not show</h2>
     <div class="limits">
       <p>
-        The honest part. What the map cannot support, what you had to assume,
-        and what would change your answer. If your unit of analysis could have
-        been drawn differently, say so here.
+This map does not show, on its own, the “Area of Influence” setting or its units. This is significant, as that is what actually determines whether this finding is useful or if the value is cherrypicked. Furthermore, it does not label the date and the road name changes mentioned above. Those had to be mentioned separately in the caption. Furthermore, population details that could be relevant, are not listed, so this map merely provides evidence for the deaths being localized around the pump rather than proving the pump is the cause of the outbreak. For example, since this tracks deaths rather than cases, there it may be that the cases of cholera were more evenly distributed but the area around the 43 Broadwick Street pump happened to have more fatal cases due to some other factor, such as the age of the local population.
       </p>
       <p>
-        <strong>AI use:</strong> No AI tools were used
-        for this entry.
+        <strong>AI use:</strong> No AI tools were used for this entry, but a search engine was used to discover the names of certain HTML tags like the "a" and "br" tags, as well as how to use them.
+
       </p>
     </div>
 
@@ -108,7 +103,7 @@
 
 <footer class="site-foot">
   <div class="wrap wrap-narrow">
-    <p>Your Name · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
+    <p>Isaac Dash · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
   </div>
 </footer>
 
