@@ -46,7 +46,9 @@
 
     <h2>The data</h2>
     <p>
-     The data was taken from a Esri-hosed teaching web map covering John Snow’s famous 1854 map of the Soho, London cholera outbreak. The link to the original map with the data is <a href="https://www.arcgis.com/apps/mapviewer/index.html?webmap=6fb43b7db1d34716aad53583406f98b1"> https://www.arcgis.com/apps/mapviewer/index.html?webmap=6fb43b7db1d34716aad53583406f98b1</a>. <br>
+     The data was taken from a Esri-hosed teaching web map covering John Snow’s famous 1854 map of the Soho, London cholera outbreak. The link to the original map with the data is <a href="https://www.arcgis.com/apps/mapviewer/index.html?webmap=6fb43b7db1d34716aad53583406f98b1"> https://www.arcgis.com/apps/mapviewer/index.html?webmap=6fb43b7db1d34716aad53583406f98b1</a>. 
+    </p>
+       <p>
               A heat map was added, and the labels for the pumps were manually moved to a higher layer so it is visible over the heat map.  It is worth noting that the map on ArcGIS uses the 1854 map of the Soho, London area, but the locations and addresses use the modern, geocoded map. As such, some changes in information can be seen, such as the fact that addresses reference “Broadwick Street” instead of “Broad Street”. This is because Broad Street was renamed Broadwick Street in 1936. Also, it is useful to know that the original map by Snow was used as evidence that cases cluster around the pump in the center of the heat map, not as a method of discovering this fact
     </p>
 
@@ -92,19 +94,20 @@ The map showed that, at the middle “Area of Influence” setting, the cases ar
 This map does not show, on its own, the “Area of Influence” setting or its units. This is significant, as that is what actually determines whether this finding is useful or if the value is cherrypicked. Furthermore, it does not label the date and the road name changes mentioned above. Those had to be mentioned separately in the caption. Furthermore, population details that could be relevant, are not listed, so this map merely provides evidence for the deaths being localized around the pump rather than proving the pump is the cause of the outbreak. For example, since this tracks deaths rather than cases, there it may be that the cases of cholera were more evenly distributed but the area around the 43 Broadwick Street pump happened to have more fatal cases due to some other factor, such as the age of the local population.
       </p>
       <p>
-        <strong>AI use:</strong> No AI tools were used for this entry, but a search engine was used to discover the names of certain HTML tags like the "a" and "br" tags, as well as how to use them.
+        <strong>AI use:</strong> No AI tools were used for this entry, but a search engine was used to discover the names of certain HTML tags like the "a" and "p" tags, as well as how to use them.
 
       </p>
     </div>
      <div> 
-               <h2>Reflection</h2>
-         <p>
+     <h2>Reflection</h2>
+     <p>
 The conclusion that the 43 Broadwick Street pump was in the center of the outbreak did not change as I varied the “Area of Influence” parameter, except perhaps at the lowest setting where the map was just a set of points, with one such point on the 43 Broadwick Street location. This implies the density map is a good piece of evidence for the fact that the pump at 43 Broadwick Street was the center of the outbreak. However, the degree that this is evident changes as the parameter varies, so different values may induce different reactions. 
-<br>
+     </p>
+     <p>
 As for the Chongqing result, although I did not use that map in this document, I would add a 1 kilometer grid for use in determining if Chongqing is a city, as each province in China contains more than just one city. There are multiple cities, as well as suburbs, rural towns, and more. As such, unless a municipality was created around each city, it would not be representative of local structure to use the whole municipality’s area as the area of a single city. If I did not specify this unit when naming the result, it could be misleading to the map’s consumer as it would imply that either all of Chongqing is highly population dense or none of it is, both of which are incorrect.
-<br>
+     </p>
+     <p>
 Lastly, density maps are used all over the place in policy making, and the “Area of Influence” parameter changes what inferences can be drawn from these maps. Take, for instance, a map listing residential addresses and the amount of people living with food insecurity at each address. With a low “Area of Influence”, this would end up looking only like points and not be useful, and a high area of influence would lose local information. If used correctly, this kind of information can help determine which areas are in need of more soup kitchens and similar support, but a bad “Area of Influence” value could lead to waste of government resources sending support to areas without a need for it.
-
       </p>
      </div>
     <a class="back" href="../index.html#labs">← Back to all labs</a>
