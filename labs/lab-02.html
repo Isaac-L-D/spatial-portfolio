@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 01 · Isaac Dash</title>
+
+<!-- Note the ../ — this page is inside the labs folder, so it has to
+     look one level up to find the stylesheet. -->
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Isaac Dash</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#labs">Labs</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article class="entry">
+  <div class="wrap wrap-narrow">
+
+    <p class="kicker">Lab 02 · September 2026</p>
+
+    <!-- EDIT THIS: a title that says what you found, not what you did.
+         "Where the metro does not go" beats "Lab 1 report". -->
+    <h1>Four Maps: What Presentation Reveals</h1>
+
+    <!-- ============================================================
+         The six parts. Every entry in this course has all six.
+         Do not delete a heading — if a section is thin, that is
+         information too.
+         ============================================================ -->
+
+    <h2>The question</h2>
+    <p>
+     Where was the support for democrats concentrated?
+    </p>
+
+    <h2>The data</h2>
+    <p>
+     The data was taken from a Esri-hosed teaching web map covering 2016 US county returns, and one CSV provided with this lab that adapted the data from said Esri-hosted teaching web map. The link to the data is <a href="https://www.arcgis.com/apps/mapviewer/index.html?webmap=ac840a515878442b8ad666a4f7b32daf"> https://www.arcgis.com/apps/mapviewer/index.html?webmap=ac840a515878442b8ad666a4f7b32daf</a>. 
+    </p>
+       <p>
+              A few issues were found with the data set. First, the DEM_votes field is empty, and in its place is the votes_DEM field, which could easily cause errors. Second, the percent symbol % in the aliases of DEM_per and GOP_per is a lie, as those are listed in terms of proportions and thus are off by a factor of 100. Third, DEM_per and GOP_per do not add to 1 as other parties, which accounted for up to 10% of the vote in some areas, were not listed in this table. Furthermore, because Alaska does not report presidential results by borough but by state house districts, the data for Alaska was duplicated 28 times. The CSV that adapted this data rectified this issue. Lastly, although the 2016 certified results counted 65,853,514 democrat votes and 62,984,828 republican votes, even when accounting for duplication in Alaska, this data sums to 62.5 million democrat votes and 61.2 million republican votes. This difference of several million shows some states were significantly undercounted in some way.
+    </p>
+
+    <h2>The method</h2>
+    <p>
+      Map 1 uses the default ArcGIS Predominant category map using both DEM_per and GOP_per as fields, though the color palette was chosen for ease of understanding. Map 2 uses graduated symbols with circles of various sizes with a transparent fill and solid outline through ArcGIS’s Counts and Amounts (size) style. The sizes represent the amount of voters in each county, by the data’s total_votes field, and the sizes were chosen to not be too dense. Map 3 uses standardised score through the z-score formula
+      <code>
+        z = (value - mean) / standard deviation
+      </code>
+       and computed using the arcade formula 
+    <code>
+        return ($feature.DEM_per - mean) / sd;
+    </code> 
+    The mean and sd values were set at 0.32 and 0.15, respectively, as dictated by the data’s statistics. It is worth noting that the z-score is measured against the national county average, with the break-even point of 50% democratic votes occurring at a z-score of about +1.2. The last map, map 4, is a cartogram generated with <a href="go-cart.io">go-cart.io</a> using the data from the Esri map, modified to remove Alaska’s duplication by making it only one statewide figure. The total vote count issue was kept, and counties were allocated by state for the purpose of the cartogram.
+
+    </p>
+
+    <!-- ============================================================
+         YOUR MAP
+         Two options:
+
+         1. An image. Export a PNG from ArcGIS or QGIS, put it in this
+            labs folder, and change the src below to your filename
+            (for example src="map-01.png").
+
+         2. A live web map. Publish it in ArcGIS Online, choose Share,
+            then Embed, and paste the src URL into the <iframe> line.
+
+         Delete whichever one you are not using.
+         ============================================================ -->
+    <figure>
+      <img src="lab2map1.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        Map 1(above) shows if the percentage of the votes leaned more in favor of democrats or republicans and by how much through the color of each county. Democrats are listed in blue and republicans in red, and less transparent colors indicate a more dominant presence in the county. Note that Alaska’s duplication issue caused it to be a single solid color.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="lab2map2.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        Map 2(above) shows the total number of votes in each county through the size of a circle centered on that county. Smaller circles translate to less votes within the county. Note that Alaska’s duplication issue caused it to be a single solid color. Furthermore, as mentioned early, the sum of the total count of votes do not line up with the official counts, so the data must undercount votes. 
+      </figcaption>
+    </figure>
+      <figure>
+      <iframe src="https://nyuds.maps.arcgis.com/apps/mapviewer/index.html?configurableview=true&webmap=2e444a5cd02540f58635ee62f1fca0e0&theme=light&legend=true&scroll=false&center=-128.04263593749246,51.63336284699527&scale=73957190.948944"
+              title="Describe your map" loading="lazy"></iframe>         
+         <figcaption>
+            Map 3(above) shows the z-score of the percentage of votes that were democratic in each county. It is important to note that “percentage” is a misnomer here as the values in the table were proportions, but it should not affect the z-score. The mean and sd values were set at 0.32 and 0.15, respectively, as dictated by the data’s statistics. Note that Alaska’s duplication issue caused it to be a single solid color, and that the break even point of 50% democratic votes occurred at a z-score of about +1.2.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="lab2map4.svg" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        Map 4(above) shows a Cartogram that has the percentage of democratic votes in each state shown as the color and the number of votes in the state shown as the state’s size. It is important to note that the data from the Esri map was modified to deduplicate the Alaska data and gather county vote counts by their states. The discrepancy in total votes was kept from the original data.
+      </figcaption>
+    </figure>
+
+    <h2>What I found</h2>
+    <p>
+    Maps 1 and 3 show that democrats are more popular near cities and urban areas and near the coast, while being less popular in other locations, though democrats lose a lot of counties due to rural areas making up a large percentage of the counties in the United States. Map 2 shows the areas where democrats have a higher percentage of the vote also have high populations. Furthermore, Map 4 shows this in more detail by displaying both the vote count by size and the percentage of democrats by color, albeit in a complicated way. Different ways of classifying the percentage of democratic votes can exaggerate or minimize this effect in a map, as shown in three classification schemes I tested.
+    </p>
+
+    <h2>What this does not show</h2>
+    <div class="limits">
+      <p>
+
+        Besides the already listed flaws about Alaska, mislabeled and empty data columns, and miscounted total votes, the data in both the Esri map and the adapted version for the Cartogram do not include third party voters and non-voters. Furthermore, the data does not reveal where it comes from.
+      </p>
+      <p>
+        <strong>AI use:</strong> No AI tools were used for this entry, but a search engine was used to discover the names of certain HTML tags like the "code" tag, as well as how to use them.
+      </p>
+    </div>
+     <div> 
+     <h2>Reflection</h2>
+     <p>
+If I had to choose, I would use the natural breaks method as it shows the most cleanly how nearby counties gradually change in terms of their political leanings for the most part and outliers do not seem to skew the coloration as much. The equal interval classification scheme would instead argue that democratic support is spotty and weak, as outliers have skewed the classification. Readers of the map could correct for this somewhat using the legend and realize the issue, but it would be difficult to do so. 
+     </p>
+     <p>
+	As for the midpoint, it is set to the average county’s percentage of democratic votes at around 32%. This asserts that democrats are unpopular while flattering the republican side as more rural counties exist, and rural counties tend to vote republican. I would have chosen the nationwide vote percentage as the midpoint as it is more representative of the whole country as it weights by population and not location.
+     </p>
+     <p>
+	 A decision that could be worse off if a display rule was made carelessly is the amount of money to spend on campaigning. If a county is close to 50% votes in one party’s favor, they would likely campaign to try to push that area in their favor, while a county more solidly in their grasp would be less of a priority.
+      </p>
+     </div>
+    <a class="back" href="../index.html#labs">← Back to all labs</a>
+
+  </div>
+
+</article>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap-narrow">
+    <p>Isaac Dash · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
