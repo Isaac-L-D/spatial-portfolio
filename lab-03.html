@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 03 · Isaac Dash</title>
+
+<!-- Note the ../ — this page is inside the labs folder, so it has to
+     look one level up to find the stylesheet. -->
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Isaac Dash</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#labs">Labs</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article class="entry">
+  <div class="wrap wrap-narrow">
+
+    <p class="kicker">Lab 03 · October 2026</p>
+
+    <!-- EDIT THIS: a title that says what you found, not what you did.
+         "Where the metro does not go" beats "Lab 1 report". -->
+    <h1>Perimeter, Areas, and Distortions</h1>
+
+    <!-- ============================================================
+         The six parts. Every entry in this course has all six.
+         Do not delete a heading — if a section is thin, that is
+         information too.
+         ============================================================ -->
+
+    <h2>The question</h2>
+    <p>
+     How much land burned in the Soberanes Fire.
+    </p>
+
+    <h2>The data</h2>
+    <p>
+     The data was taken from a Esri-hosed teaching web map on the area burned in the Soberanes Fire in California in 2016. The link to this data is <a href="https://www.arcgis.com/apps/mapviewer/index.html?layers=82f8ddd0b40b49faa142ced59a569b8d"> https://www.arcgis.com/apps/mapviewer/index.html?layers=82f8ddd0b40b49faa142ced59a569b8d</a>. 
+    </p>
+       <p>
+              This had a listed area of about 823.634 km² and a listed parameter of 556,808km. It is important to note that this is in units governed by WGS 84/Pseudo-Mercator projection, as retrieved from the metadata, and as such is not very accurate from a geodic perspective. This was only stated in the service definition. Furthermore, 686 rings smaller than a single Landsat cell were found on this parameter, which likely distorted the true parameter.. This data was also used to generate an ArcGIS scene in three dimensions for an elevation surface. The second source of data was the Esri Landsat Explorer, found at <a href="https://livingatlas.arcgis.com/landsatexplorer/">https://livingatlas.arcgis.com/landsatexplorer/</a>, where I measured on June 20th, 2016 and October 26th, 2016 in short wave IR to see burn scars. Lastly, there are the results from a public geode calculator at <a href="https://geographiclib.sourceforge.io/cgi-bin/GeoidEval">https://geographiclib.sourceforge.io/cgi-bin/GeoidEval</a> to measure how different geode versions change the height at specific locations.
+    </p>
+
+    <h2>The method</h2>
+    <p>
+      The first two measurements were taken directly from the data, namely the 823.634 km² figure in Pseudo-Mercator units and a second from an Arcade expression that extracted geodetic area with <code>AreaGeodetic()</code>, which totaled 533.486 km². I then checked how the area changes with distance from the equator in the Web Mercator projection. This is summarized in a table below. The burn scars were visually examined in the Esri Landsat Explorer, and the spread of geode distances were taken from the SourceForge tool. Furthermore, the true area was estimated by using an ArcGIS scene to get the average slope in two lines across the fire and plugging that into <code>1/cos(slope)</code> to get an estimate of the true area covered. This is guaranteed to be an underestimate, but it will likely be more accurate than a pure planar projection. Lastly, we filled two sensitivity tables, one with the area distortion from Web Mercator projection using sec²(phi) − 1 and the other with the distortion of bands from cell-size using various sensors.  
+
+    </p>
+
+    <!-- ============================================================
+         YOUR MAP
+         Two options:
+
+         1. An image. Export a PNG from ArcGIS or QGIS, put it in this
+            labs folder, and change the src below to your filename
+            (for example src="map-01.png").
+
+         2. A live web map. Publish it in ArcGIS Online, choose Share,
+            then Embed, and paste the src URL into the <iframe> line.
+
+         Delete whichever one you are not using.
+         ============================================================ -->
+    <figure>
+      <img src="Fig1Lab3.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This shows the burn as seen through Landsat, with the before(June 20th, 2016) on the left and the after(October 26th, 2016) on the right.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="Fig2Lab3.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This shows the limit of Landsat’s resolution, particularly at close ranges where the cells become smaller than measurement accuracy would allow.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="Fig3Lab3.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This shows an area of the boundary from the ArcGIS layer where the polygon traces out a small section with a width smaller than the resolution of Landsat grid cells, namely 30m in the Web Mercator projection.
+      </figcaption>
+    </figure>
+        <figure>
+      <img src="Fig4Lab3.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This shows a side profile of the area burned as seen in a 3D Model, generated by ArcGIS’s scene feature.
+      </figcaption>
+    </figure>
+    <h2>What I found</h2>
+    <p>
+Areas measured geodetically on the WGS 84 ellipsoid.
+Source geometry stored in EPSG:3857 (Web Mercator);
+planar areas in that frame are inflated by <code>sec^2(phi)</code>
+and are reported here only for comparison.
+    </p>
+    <p>
+The tables below show the data and the methods of retrieval. Note that the planar figure from the Web Mercator has km² as the unit but is measured with a Web Mercator projection that distorts the area, so the units are not entirely compatible. Two sensitivity tables are also provided, one showing distortion of area by latitude in the Web Mercator projection and another showing the distortion of bands from cell-size using various sensors. 
+</p>
+<span id="docs-internal-guid-30c11b76-7fff-9dca-f82b-fd2d15d2cd12" style=""><div dir="ltr" style="margin-left:-5.75pt;" align="left"><table style="border:none;border-collapse:collapse;"><colgroup><col width="210"><col width="210"><col width="210"></colgroup>
+  <thead>
+    <tr style="height:0pt">
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Frame</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Area (km²)</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">How you got it</span></p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Web Mercator, planar</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">823.634 km²&nbsp;</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Consolas, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Shape__Area</span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">, and </span><span style="font-size: 9.5pt; font-family: Consolas, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Area()</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">WGS 84 ellipsoid, geodetic</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">533.486 km²&nbsp;</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Consolas, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">AreaGeodetic()</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Your hand-traced polygon</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">584.21 km²&nbsp;</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Measurement tool</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">The published incident figure</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">534.7 km²</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">132,127 acres, converted by you</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">UTM zone 10N, planar</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">533.929 km</span><span style="font-size: 10.5pt; font-family: Roboto, sans-serif; color: rgb(68, 71, 70); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">²</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">given, computed for you</span></p></td>
+    </tr>
+    <tr style="height:21.332532035251685pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">California Albers, planar</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">534.182 km</span><span style="font-size: 10.5pt; font-family: Roboto, sans-serif; color: rgb(68, 71, 70); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">²</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">given, computed for you</span></p></td>
+    </tr>
+  </tbody>
+</table></div></span>
+<span id="docs-internal-guid-3ef853cb-7fff-e311-abbb-2f3c386910cf" style=""><div dir="ltr" style="margin-left:-5.75pt;" align="left"><table style="border:none;border-collapse:collapse;"><colgroup><col width="210"><col width="210"><col width="210"></colgroup>
+  <thead>
+    <tr style="height:0pt">
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Place</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Latitude</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Web Mercator areal inflation</span></p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Equator</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">0.000°</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">0%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Gibson Desert, Western Australia</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">−23.285°</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">18.5208%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">This campus, Pudong</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">31.162°</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">36.5681%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Madeira, Portugal</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">32.750°</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">41.3734%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Soberanes Fire, California</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">36.326°</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">54.0625%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Fairbanks, Alaska</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">64.840°</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">453.2491%</span></p></td>
+    </tr>
+  </tbody>
+</table></div></span>
+<span id="docs-internal-guid-051b0dd7-7fff-4a4d-011e-0fbc6ad9db20" style=""><div dir="ltr" style="margin-left:-5.75pt;" align="left"><table style="border:none;border-collapse:collapse;"><colgroup><col width="158"><col width="158"><col width="158"><col width="158"></colgroup>
+  <thead>
+    <tr style="height:0pt">
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Sensor</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Cell size</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Band (km²)</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">As a share of the area</span></p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Sentinel-2</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">10 m</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">4.41955</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">0.8273%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Landsat 8-9</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">30 m</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">13.2587</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">2.4820%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">MODIS</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">250 m</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">110.4888</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">20.6837%</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">A coarse global product</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">500 m</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">220.9775</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">41.3675%</span></p></td>
+    </tr>
+  </tbody>
+</table></div></span>
+<p>
+ At this scale and latitude, the distortion from the Web Mercator projection dominates.  If I were publishing this data and had to choose a department, I would publish the geodetic area, as it makes the least assumptions on the changing in slope while accounting for the large amount of distortion caused by the Web Mercator projection. I would not publish parameter values as those depend strongly on the resolution of the sensor and would require caveats. 
+    </p>
+
+    <h2>What this does not show</h2>
+    <div class="limits">
+      <p>
+
+         At this scale and latitude, the distortion from the Web Mercator projection dominates.  If I were publishing this data and had to choose a department, I would publish the geodetic area, as it makes the least assumptions on the changing in slope while accounting for the large amount of distortion caused by the Web Mercator projection. I would not publish parameter values as those depend strongly on the resolution of the sensor and would require caveats. 
+      </p>
+      <p>
+        <strong>AI use:</strong> No AI tools were used for this entry, but Google Docs and <a href="https://tabletomarkdown.com/convert-spreadsheet-to-html/">https://tabletomarkdown.com</a> was used for the tables above.
+      </p>
+    </div>
+     <div> 
+     <h2>Reflection</h2>
+     <p>
+If I had trusted the attribute table, I would have published the given area figure and been off by about 50% due to Web Mercator Distortion, and probably more given the figure given is in m³ and not km² as I expected, and so I would have been off by several orders of magnitude. However, I would now publish the figure 533.486 km² from the “WGS 84 ellipsoid, geodetic” frame for the total area burned as it seems the most accurate with the least assumptions. I would still check which geode is used beforehand, though.
+     </p>
+     <p>
+	For this fire, the most important thing was the projection, as it overwhelmed all other sources of distortion. For areas closer to the equator or with much rougher terrain, the grid for measurement and the terrain may have a larger impact on the area and the rankings could flip. Furthermore, the terrain needed to be found from a separate map and could not be given from the Web Mercator Projection.
+     </p>
+     <p>
+	For disaster declarations, burned acreage changes how much financial and logistical support can be expected from federal organizations like FEMA, with smaller disasters warranting less resources. If the Web Mercator figure was published blindly, then the result could lead to too many resources being allocated to this disaster and causing smaller disasters elsewhere to be undersupported. 
+      </p>
+     </div>
+  <div>
+  </div>
+    <a class="back" href="../index.html#labs">← Back to all labs</a>
+
+  </div>
+
+</article>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap-narrow">
+    <p>Isaac Dash · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
