@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 04 · Isaac Dash</title>
+
+<!-- Note the ../ — this page is inside the labs folder, so it has to
+     look one level up to find the stylesheet. -->
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Isaac Dash</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#labs">Labs</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article class="entry">
+  <div class="wrap wrap-narrow">
+
+    <p class="kicker">Lab 04 · October 2026</p>
+
+    <!-- EDIT THIS: a title that says what you found, not what you did.
+         "Where the metro does not go" beats "Lab 1 report". -->
+    <h1>Raster and Vector</h1>
+
+    <!-- ============================================================
+         The six parts. Every entry in this course has all six.
+         Do not delete a heading — if a section is thin, that is
+         information too.
+         ============================================================ -->
+
+    <h2>The question</h2>
+    <p>
+How much of Shanghai is Putuo?
+
+    </p>
+
+    <h2>The data</h2>
+    <p>
+I used a vectorized map of the districts, particularly a geojson of the administrative districts. Each one was given an ID to help identify it. The file was named LAB04_shanghai-districts.geojson. An additional file, based on a survey done at NYU Shanghai, was also provided in a csv titled LAB04_shanghai-lockdown-survey.csv which dealt with statistics about the mental health in households in the Shanghai area during the pandemic along with their addresses. The second file had the same ID values for administrative districts and had longitude and latitude, so they were used alongside the vectorized districts. However, the addresses were often blank (553/3763) or deleted to protect identifying information. The vector boundary also had no license.
+    </p>
+
+    <h2>The method</h2>
+    <p>
+Throughout this project, we worked in EPSG:32651 as the CRS. The extent used for rasterization in each case was 295000, 430000, 3393000, 3528000  [EPSG:32651], all measurements were made using QGIS 3.4, and rasterization was done using QGIS 3.4 with Georeferenced units. The rasterization was done at four different cell sizes: 1km by 1km, 250m by 250m,100m by 100m, and 30m by 30m. Each outputted a .tif file with Bytes as the output data type. Rasterized areas were then computed by multiplying the amount of pixel cells belonging to each district by the size of each pixel cell, and these were compared to areas computed directly from the vectorized boundaries.
+
+    </p>
+
+    <!-- ============================================================
+         YOUR MAP
+         Two options:
+
+         1. An image. Export a PNG from ArcGIS or QGIS, put it in this
+            labs folder, and change the src below to your filename
+            (for example src="map-01.png").
+
+         2. A live web map. Publish it in ArcGIS Online, choose Share,
+            then Embed, and paste the src URL into the <iframe> line.
+
+         Delete whichever one you are not using.
+         ============================================================ -->
+    <figure>
+      <img src="lab4VectorShanghaiDistricts.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This is an image of the vectorized map of the districts of Shanghai, as seen in QGIS 3.4.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="lab430vs1km.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This is a comparison of two rasterized versions of the above map: one with 30m by 30m cells and another with 1km by 1km cells. These units are relative to the EPSG:32651 reference system.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="lab4_30mZoomed.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This is a zoomed in image of the 30m by 30m cell rasterized map, with the edge of a few districts clearly visible at this level of zoom. These units are relative to the EPSG:32651 reference system.
+      </figcaption>
+    </figure>
+        <figure>
+      <img src="lab4inconsistentPoints.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+         This is a view of points marked as inconsistent(yellow) from a survey on mental health conducted here at NYU, where the yellow points indicate the longitude and latitude of the points that place them in a district of the vector map that they are not indicated to be in by their entry in the survey. It is zoomed so as to not give away identifying information. 
+      </figcaption>
+    </figure>
+    <h2>What I found</h2>
+    <p>
+ Areas measured planar in EPSG:32651 (WGS 84 / UTM 51N),which departs from the ellipsoidal area by under 0.03 per cent at this latitude. Gridded areas were computed by cell count on a 30 m grid with origin 295000, 3528000; shifting that origin by half a cell moves a small district by several per cent, so gridded figures are reported to no better than the nearest per cent.
+    </p>
+    <p>
+The findings show that Putuo is about 55.54km² in area, as measured using the raster image with 30m by 30m cells and the vectorized map of the districts. Both agree to two decimal places in this regard, so I would publish this figure. I would not use any more coarse raster measurements, as the difference between the raster and vectorized measurements begins to climb all the way to 5% at the 1km by 1km cell size grid. This amounts to approximately 1% of Shanghai’s total area, as computed through the raster image with 30m by 30m cells. There are a few important caveats, as can be seen in the section below.
+</p>
+    <h2>What this does not show</h2>
+    <div class="limits">
+      <p>
+
+      As shown in figure 4, many of the respondents(~8.8%) did not have comparable longitude and latitudes for their district compared to the vectorized boundaries, and approximately 16.5% of respondents had no coordinates at all. Furthermore, the vectorized boundary was with ~600m resolution, so edges below that scale would not be visible.
+      </p>
+      <p>
+        <strong>AI use:</strong> No AI tools were used for this entry.
+      </p>
+    </div>
+     <div> 
+     <h2>Reflection</h2>
+     <p>
+If I had to pick one number for the area of Putou, I would pick the vectorized area as taken in the EPSG:32651 frame. This is because it loses the least detail to sharp boundaries, and we have seen in prior labs that sharper boundaries may increase perimeter significantly but area tends not to be affected as much as resolution scales.
+     </p>
+     <p>
+For this data, I would rank the projection as the largest source of disagreement as the Web-Mercator projection produces quite a lot of error at ~37%, followed by the origin position which can cause a ~7% swing, then the cell size at about 5% and finally the vector layer’s resolution at less than a percent. One factor not listed is the possibility that the districts cover significant amounts of river, which can skew the amount of dry area.
+     </p>
+     <p>
+It seems that Qingpu has the most misrepresented people in the survey, as it seems to be the most common district without longitude and latitude values for the survey recipients and so its population would be undercounted. This could cause less funding to be allocated for mental health services, which may disadvantage its population.
+      </p>
+     </div>
+  <div>
+  </div>
+    <a class="back" href="../index.html#labs">← Back to all labs</a>
+
+  </div>
+
+</article>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap-narrow">
+    <p>Isaac Dash · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
