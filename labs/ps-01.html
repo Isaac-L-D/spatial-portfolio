@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Problem Set 1 · Isaac Dash</title>
+
+<!-- Note the ../ — this page is inside the labs folder, so it has to
+     look one level up to find the stylesheet. -->
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Isaac Dash</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#labs">Labs</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article class="entry">
+  <div class="wrap wrap-narrow">
+
+    <p class="kicker">Problem Set 1 · October 2026</p>
+
+    <!-- EDIT THIS: a title that says what you found, not what you did.
+         "Where the metro does not go" beats "Lab 1 report". -->
+    <h1>Depression and Districts</h1>
+
+    <!-- ============================================================
+         The six parts. Every entry in this course has all six.
+         Do not delete a heading — if a section is thin, that is
+         information too.
+         ============================================================ -->
+
+    <h2>The question</h2>
+    <p>
+Among respondents with a valid reported district, was the share screening positive for depression higher within the seven central districts than in the nine outer ones?
+
+    </p>
+
+    <h2>The data</h2>
+    <p>
+The data was collected through a survey conducted by NYU Shanghai through the internet, with IP addresses used to verify the participant was within Shanghai. Individuals without an internet connection were excluded, and the participants were chosen on a first-come first-served basis with 10% oversampling. The survey was conducted between the 29th April and the 1st of June, 2022. Data collected relevant to my question include the binary depression value, which used a PHQ-9 depression questionnaire with an unstated cutoff to choose if an individual was depressed, a geocoded coordinate, and a self-reported district converted into an integer code. Of the 3,348 respondents, 553 were excluded for not having a geocoded coordinate. A separate file was used with vectorized boundaries of each district alongside their survey code and name, both in Chinese and English. This file had no listed license. 
+    </p>
+
+    <h2>The method</h2>
+    <p>
+The method was relatively simple. First, the maps were set to CRS EPSG:32651, and the seven central districts were defined to be Huangpu, Xuhui, Changning, Jing'an, Putuo, Hongkou, and Yangpu(Survey Codes 1-7). All nine other districts were considered outer districts. A numeric, binary code field was added to indicate if a response's district was a central district or not for categorization. Then, a rough margin of error was calculated using the percent of respondents in the central districts whose geocoded coordinates did not match their district code using the vectorized boundaries, and the same was computed for outer districts. Then, the depression boolean was converted to an integer, with one for true and zero for false. Lastly, I got the statistics for this integer depression value by the category of whether the respondent was in a central district. One of the values this returned included a mean that would be interpreted as the share. The results are summarized in the following table. A map was also produced with depression share by district for visuallization purposes, and a histogram was created for both the central and outer districts to show their distribution around the mean.
+<span id="docs-internal-guid-cc77daa1-7fff-6c77-052c-e8401c844f87" style=""><div dir="ltr" style="margin-left:-5.75pt;" align="left"><table style="border:none;border-collapse:collapse;"><colgroup><col width="105"><col width="105"><col width="105"><col width="105"><col width="105"><col width="105"></colgroup>
+  <thead>
+    <tr style="height:0pt">
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.38;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Group</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.38;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Group Population</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.38;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Number within Group with Depression</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.38;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Share</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.38;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Rough Margin</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.38;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Is Within Margin</span></p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Group A: Central Districts</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">1179</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Consolas, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">316</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">26.8%</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 10.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">12.7%</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">No</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Group B: Outer Districts</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">1616</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Consolas, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">440</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Consolas, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">27.2%</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">5.9%</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.38;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">No</span></p></td>
+    </tr>
+  </tbody>
+</table></div></span>
+    </p>
+
+    <!-- ============================================================
+         YOUR MAP
+         Two options:
+
+         1. An image. Export a PNG from ArcGIS or QGIS, put it in this
+            labs folder, and change the src below to your filename
+            (for example src="map-01.png").
+
+         2. A live web map. Publish it in ArcGIS Online, choose Share,
+            then Embed, and paste the src URL into the <iframe> line.
+
+         Delete whichever one you are not using.
+         ============================================================ -->
+    <figure>
+      <img src="probSet1Map.svg" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This is a map of the districts, colored by depression share as discribed in the legend. 
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="probSet1Hist.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        These are histograms of the share of depression by district of the two categories to describe their distribution.
+      </figcaption>
+    </figure>
+  
+    <h2>What I found</h2>
+    <p>
+      Unweighted shares from the 2022 Shanghai Lockdown Survey, a
+purposive online sample: 2,795 of 3,348 respondents had a
+coordinate. The rest were excluded due to the lack of coordinates. Shanghai central districts were defined as including Huangpu, Xuhui, Changning, Jing'an, Putuo, Hongkou, and Yangpu(Survey Codes 1-7), while the outer districts were defined as including Pudong New Area, Minhang, Baoshan, Jiading, Jinshan, Songjiang, Qingpu, Fengxian, and Chongming (Codes 8-16).
+    </p>
+    <p>
+  The central districts had a mean share of depression of 26.8%, while the outer districts had a mean rate of depression of 27.2%. The difference in shares is -0.4%, with the Central Districts having a slightly lower share of Depression, but this difference is well below the rough margin of error of both groups(12.7% for the central districts, 5.9% for the outer districts), so there is no significant difference between depression rates inside and outside the central districts. 
+</p>
+    <h2>What this does not show</h2>
+    <div class="limits">
+      <p>
+ It is worth noting that my analysis cannot see respondents who lack longitude and latitude, valid district codes, or a value for the “Depression” field, although all respondents had valid district codes and valid values for the  “Depression” field. Furthermore, I ran a sensitivity analysis by repeating the method twice, making minor changes to the method each time. In the first, I disregarded the respondent's provided code and used the respondent's location data to choose the districts using the vectorized boundaries, and in the second I included all respondents regardless of if they had location information by relying on the district code the respondents provided. This served to add back in the 553 responses which were discarded due to lack of coordinates. The first modification resulted in the central districts having a lower mean share of depression, while the latter had the central districts with a higher mean share of depression, but the magnitude of the difference was less than one percent in both cases. This is less than the calculated rough margin, and so I do not believe that the data supports any actual difference between the two categories when it comes to the rate of depression that cannot be attributed to random noise from the sampling of respondents. 
+
+      </p>
+      <p>
+        <strong>AI use:</strong> No AI tools were used for this entry.
+      </p>
+    </div>
+  <div>
+  </div>
+    <a class="back" href="../index.html#labs">← Back to all labs</a>
+
+  </div>
+
+</article>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap-narrow">
+    <p>Isaac Dash · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
