@@ -52,7 +52,7 @@ The data was collected through a survey conducted by NYU Shanghai through the in
 
     <h2>The method</h2>
     <p>
-The method was relatively simple. First, the maps were set to CRS EPSG:32651, and the seven central districts were defined to be Huangpu, Xuhui, Changning, Jing'an, Putuo, Hongkou, and Yangpu(Survey Codes 1-7). All nine other districts were considered outer districts. A numeric, binary code field was added to indicate if a response's district was a central district or not for categorization. Then, a rough margin of error was calculated using the percent of respondents in the central districts whose geocoded coordinates did not match their district code using the vectorized boundaries, and the same was computed for outer districts. Then, the depression boolean was converted to an integer, with one for true and zero for false. Lastly, I got the statistics for this integer depression value by the category of whether the respondent was in a central district. One of the values this returned included a mean that would be interpreted as the share. The results are summarized in the following table. A map was also produced with depression share by district for visuallization purposes, and a histogram was created for both the central and outer districts to show their distribution around the mean.
+The method was relatively simple. First, the maps were set to CRS EPSG:32651, and the seven central districts were defined to be Huangpu, Xuhui, Changning, Jing'an, Putuo, Hongkou, and Yangpu(Survey Codes 1-7). All nine other districts were considered outer districts. A numeric, binary code field was added to indicate if a response's district was a central district or not for categorization. Then, a rough margin of error was calculated using the percent of respondents in the central districts whose geocoded coordinates did not match their district code using the vectorized boundaries, and the same was computed for outer districts. Then, the depression boolean was converted to an integer, with one for true and zero for false. Lastly, I got the statistics for this integer depression value by the category of whether the respondent was in a central district. One of the values this returned included a mean that would be interpreted as the share. The results are summarized in the following table. Furthermore, a web map was created for the share of depression for central and outer districts, a second map was also produced with depression share by district for visuallization purposes, and a histogram was created for both the central and outer districts to show their distribution around the mean. All can be seen below.
 <span id="docs-internal-guid-cc77daa1-7fff-6c77-052c-e8401c844f87" style=""><div dir="ltr" style="margin-left:-5.75pt;" align="left"><table style="border:none;border-collapse:collapse;"><colgroup><col width="105"><col width="105"><col width="105"><col width="105"><col width="105"><col width="105"></colgroup>
   <thead>
     <tr style="height:0pt">
@@ -99,6 +99,16 @@ The method was relatively simple. First, the maps were set to CRS EPSG:32651, an
          Delete whichever one you are not using.
          ============================================================ -->
     <figure>
+      <img src="probSet1WebMap.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        This is a map of Shanghai, divided into central and outer districts, classified by depression share. The actual difference is too small to make the color gradient useful, so classification was used to make the difference visible. Natural breaks were used for the classification.  
+      </figcaption>
+    </figure>
+       <figure>
       <img src="probSet1Map.svg" alt="Describe what the map shows, for someone who cannot see it.">
       <!--
       <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
