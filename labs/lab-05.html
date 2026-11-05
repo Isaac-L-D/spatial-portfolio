@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 05 · Isaac Dash</title>
+
+<!-- Note the ../ — this page is inside the labs folder, so it has to
+     look one level up to find the stylesheet. -->
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Isaac Dash</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#labs">Labs</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article class="entry">
+  <div class="wrap wrap-narrow">
+
+    <p class="kicker">Lab 05 · October 2026</p>
+
+    <!-- EDIT THIS: a title that says what you found, not what you did.
+         "Where the metro does not go" beats "Lab 1 report". -->
+    <h1>Interpolation and Fertilization</h1>
+
+    <!-- ============================================================
+         The six parts. Every entry in this course has all six.
+         Do not delete a heading — if a section is thin, that is
+         information too.
+         ============================================================ -->
+
+    <h2>The question</h2>
+    <p>
+How much of the fields are viable for corn, and how accurate is interpolation for this purpose?
+
+    </p>
+
+    <h2>The data</h2>
+    <p>
+I used the provided file, LAB05_simplified_farm.gpkg, to provide the fields as a vector layer and the samples as a set of points in EPSG:32614. For comparing the accuracy of interpolation, the provided file LAB05_truth-p.tif was used. It is worth noting that the farm in synthetic. </p>
+
+    <h2>The method</h2>
+    <p>
+First, since the amount of phosphorus in the soil P changes units from percentage to decimal, we created a fixed value using a new field that convered it all into a decimal from 0 to 1 for the share of phosphorus. Then, we measured the distance from the center to the point furthest from any sample in field 1 as well as the distance from field 5's center to the nearest sample. Afterward, we used IDW to fill in the gaps with Distance Coefficient P=2 and compared the result to the ground truth provided.
+    </p>
+
+    <!-- ============================================================
+         YOUR MAP
+         Two options:
+
+         1. An image. Export a PNG from ArcGIS or QGIS, put it in this
+            labs folder, and change the src below to your filename
+            (for example src="map-01.png").
+
+         2. A live web map. Publish it in ArcGIS Online, choose Share,
+            then Embed, and paste the src URL into the <iframe> line.
+
+         Delete whichever one you are not using.
+         ============================================================ -->
+    <figure>
+      <img src="lab5Screenshot1.png" alt="The 31 points that fit .">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        The 31 points that fit growing corn. Notably, these points are chosen with an unmodified P value, so batch B, which uses percentage rather than a value between 0 and 1, fails this due to the cutoff allowing only points with P between 0.25 and 0.8, inclusive.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="lab5Screenshot2IDWP2.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        The IDW interpolation of the fixed P value, with Distance Coefficient P = 2 and 10 meter cells.
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="lab5Screenshot2Truth.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        The true phosphorus values, as given in the file, with the same style as the above interpolation.
+      </figcaption>
+    </figure>
+        <figure>
+      <img src="lab5Screenshot3.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+         The difference between the IDW of the fixed phosphorus value and the truth value at each point, where red means there the IDW predicted more phosphorus than there was.
+      </figcaption>
+    </figure>
+  <span id="docs-internal-guid-5746075a-7fff-ed5b-40e4-bef351c441a2" style=""><div dir="ltr" style="margin-left:-5.75pt;" align="left"><table style="border:none;border-collapse:collapse;"><colgroup><col width="315"><col width="315"></colgroup>
+  <thead>
+    <tr style="height:0pt">
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Question</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Answer</span></p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q1: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Two different scales are hiding in the P column. Which rows use the bigger scale?</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Platte Valley Agronomy(Batch B, Fields 4 and 5) seems to use percentage, in the range 0 to 100, while Sandhills Soil Lab(Batch A, Fields 1,2, and 3) uses proportions in the range 0 to 1.</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q2: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">How many samples suit corn using P, and using P_fix?</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">31 samples suit corn using P, and 46 samples suit corn using P_fix. The extra points are on the southern half of the farm(Fields 4 and 5)</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q3: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">&nbsp;Write both distances(i.e. the distance from center of Field 5 to the nearest sample and distance from center of field 1 to the point furthest from samples). You should get roughly 340 m for Field 5 and about 130 m for Field 1. Before you go on, write one sentence predicting where a map built from these samples will be least trustworthy.</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">I measured 342.455m for the distance from field 5’s center to the closest sample point and 159.35m&nbsp; from field 1’s center to the point furthest from any sample in field 1. A map built from these samples will be least reliable along the parts where there are few samples, like the bottom left of Field 5 or the area we just measured in Field 1.</span></p><br><br></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q4: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Does any of the three powers(i..e Distance coefficients 2,1, and 4) show a phosphorus problem (red) inside Field 5?</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">No.</span></p></td>
+    </tr>
+  </tbody>
+</table></div></span>
+    <h2>What I found</h2>
+    <p>
+    IDW measured that very little of the map were far below the minimum, while the true value showed that a large portion of Field 5 is below the minimum requirement for corn. This shows a limitation of IDW interpolation on limited data.
+    </p>
+
+    <h2>What this does not show</h2>
+    <div class="limits">
+      <p>
+
+      This does not show that interpolation through IDW is not useful. With more data that is more evenly distributed over the area, it will likely approach the true value. It also doesn't show other factors contributing to corn growth, such as moisture and rainfall.
+      </p>
+      <p>
+    <strong>AI use:</strong> No AI tools were used for this entry, but Google Docs and <a href="https://tabletomarkdown.com/convert-spreadsheet-to-html/">https://tabletomarkdown.com</a> was used for the tables above.
+      </p>
+    </div>
+     <div> 
+     <h2>Reflection</h2>
+     <p>
+About Field 5, I would tell the farmer that the field in Field 5 may have phosphorus content suitable for corn(within the range 0.25 to 0.80), but it is hard to say due to the sparsity of samples and it would be best to more evenly distribute samples across the field.
+     </p>
+     <p>
+When the map is about people, less represented and more isolated areas pay for this mistake. For example, if the map was about air quality, locations with less money to pay for surveying or less people to do the surveying would get more inaccurate interpolation and thus a government relying on that data would send less effective help to that area based on this information, either by spending less resources on it than they should or spending resources in the wrong way based on inaccurate information.
+     </p>
+     </div>
+  <div>
+  </div>
+    <a class="back" href="../index.html#labs">← Back to all labs</a>
+
+  </div>
+
+</article>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap-narrow">
+    <p>Isaac Dash · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
