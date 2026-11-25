@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lab 07 · Isaac Dash</title>
+
+<!-- Note the ../ — this page is inside the labs folder, so it has to
+     look one level up to find the stylesheet. -->
+<link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Isaac Dash</a>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#labs">Labs</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<article class="entry">
+  <div class="wrap wrap-narrow">
+
+    <p class="kicker">Lab 07 · November 2026</p>
+
+    <!-- EDIT THIS: a title that says what you found, not what you did.
+         "Where the metro does not go" beats "Lab 1 report". -->
+    <h1>Mapping Health</h1>
+
+    <!-- ============================================================
+         The six parts. Every entry in this course has all six.
+         Do not delete a heading — if a section is thin, that is
+         information too.
+         ============================================================ -->
+
+    <h2>The question</h2>
+    <p>
+How can we choose a new hospital's position from canadate positions?
+
+    </p>
+
+    <h2>The data</h2>
+    <p>
+I used the provided file, which gave the locations of 69 canadate sites for the new hospital, as well as location and sizes of houses and hospitals and the local road structure of an 10km square near NYU Shanghai campus.
+
+
+    <h2>The method</h2>
+    <p>
+We first checked if any of the canadates have no homes within 1km of the location, and found 3/4 of the canadates do not serve any homes within a kilometer. We then tried three different weighting schemes of three scores for each canadate. Each score had a value between 0 and 100. The first score, s_hosp, scored the distance from the nearest hospital and capped at 100 points at 3km. The second, s_road, scored distance to the nearest main road, preferring not to be on top on top of the road, with maximum score achieved between 50 and 300m from a main road. The last score, s_cov, scored how many homes are within 1km of the canadate, on a scale that puts the best coverage canadate at 100 points. The weights shifted from preferring coverage to preferring road access to using raw coverage data in the last weight as a trial. 
+    </p>
+
+    <!-- ============================================================
+         YOUR MAP
+         Two options:
+
+         1. An image. Export a PNG from ArcGIS or QGIS, put it in this
+            labs folder, and change the src below to your filename
+            (for example src="map-01.png").
+
+         2. A live web map. Publish it in ArcGIS Online, choose Share,
+            then Embed, and paste the src URL into the <iframe> line.
+
+         Delete whichever one you are not using.
+         ============================================================ -->
+    <figure>
+      <img src="lab7Screenshot1.png" alt="">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+Map ranked by the first score with weights 0.3 / 0.2 / 0.5 for hospital / road / coverage. Redder canadates have higher scores. 
+      </figcaption>
+    </figure>
+    <figure>
+      <img src="lab7Screenshot2.png" alt="Describe what the map shows, for someone who cannot see it.">
+      <!--
+      <iframe src="PASTE-YOUR-ARCGIS-EMBED-URL-HERE"
+              title="Describe your map" loading="lazy"></iframe>
+      -->
+      <figcaption>
+        A table of the top canadates of the second score with weights 0.2 / 0.6 / 0.2 for hospital / road / coverage.
+      </figcaption>
+    </figure>
+
+<span id="docs-internal-guid-bdaf3412-7fff-571d-0c6b-550a7ee844ca" style=""><div dir="ltr" style="margin-left:-5.75pt;" align="left"><table style="border:none;border-collapse:collapse;"><colgroup><col width="315"><col width="315"></colgroup>
+  <thead>
+    <tr style="height:0pt">
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Question</span></p></th>
+      <th style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#f4f2ed;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;" scope="col"><p dir="ltr" style="line-height:1.295;margin-top:3pt;margin-bottom:3pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Answer</span></p></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q1: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">How many of the 69 candidates have any homes within 1 km? (cov_pct is the percentage of all the floor area that lies within 1 km of the site.)</span></p><br></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">17 sites don’t have any homes within 1km.</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q2: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Which two sites come top under score_a, with what scores?</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Sites S51 and S50 have the top two scores under score_a, with 73.69 and 70.47 respectively.&nbsp;</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q3: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">&nbsp;Which two sites come top under score_b? Did the winner change?</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Sites S50 and S51 have the top two scores under score_b, with 82.88 and 82.46 respectively. The winners changed and the top 2 swapped.</span></p><br></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3800000000000001;margin-top:0pt;margin-bottom:7pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q4: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">What happens at the top, and what do those sites have in common?</span></p></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">All of the top candidates in score_raw have 100s in s_hosp and s_road and 0 in share_pct, so share_pct has less weight here.</span></p></td>
+    </tr>
+    <tr style="height:0pt">
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3800000000000001;margin-top:0pt;margin-bottom:7pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-weight: 700; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Q5: </span><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(18, 22, 28); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Which site is chosen in every run? Which two appear in four? How much worse is the worst run than the best, in per cent?</span></p><br></td>
+      <td style="border-bottom:solid #d9d5cc 0.5pt;border-top:solid #d9d5cc 0.5pt;vertical-align:top;background-color:#ffffff;padding:0pt 5.75pt 0pt 5.75pt;overflow:hidden;overflow-wrap:break-word;"><p dir="ltr" style="line-height:1.3199999999999998;margin-top:4pt;margin-bottom:4pt;"><span style="font-size: 9.5pt; font-family: Calibri, sans-serif; color: rgb(98, 108, 122); background-color: transparent; font-variant: normal; vertical-align: baseline; white-space: pre-wrap;">Site S51 appears in all seeds, with Site 44 and Site 60 appearing in 4 of them. The worst run is about 17.75% worse than the best run.</span></p></td>
+    </tr>
+  </tbody>
+</table></div></span>
+    <h2>What I found</h2>
+    <p>
+      It seems sites 50 and 51 are the best, with which is best in the end coming down to whether coverage or access are prioritized.
+    </p>
+
+    <h2>What this does not show</h2>
+    <div class="limits">
+      <p>
+
+      This does not show the weights for any given map, and it does not explain how those weights are chosen. It also doesn't explain how canadates were generated, chosen, or filtered.
+      </p>
+      <p>
+    <strong>AI use:</strong> No AI tools were used for this entry, but Google Docs and <a href="https://tabletomarkdown.com/convert-spreadsheet-to-html/">https://tabletomarkdown.com</a> was used for the tables above.
+      </p>
+    </div>
+     <div> 
+     <h2>Reflection</h2>
+     <p>
+I would defend the coverage-first weights as the priority for ambulances is being able to get the patient to the hospital as quickly as possible and, while roads can be rebuilt depending on the location, distance cannot be changed.
+     </p>
+     <p>
+The 1,100m rule decided the answer before the weights were chosen because it modified the candidate list. In higher populated areas, this may underserve the community as they may require more hospitals to serve all of the people within the 1,100m radius. Perhaps it would be better to have the rule’s minimum distance be a function of population density.
+     </p>
+     </div>
+  <div>
+  </div>
+    <a class="back" href="../index.html#labs">← Back to all labs</a>
+
+  </div>
+
+</article>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap wrap-narrow">
+    <p>Isaac Dash · SOCS-SHU 205 · NYU Shanghai · Fall 2026</p>
+  </div>
+</footer>
+
+</body>
+</html>
